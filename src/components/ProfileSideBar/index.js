@@ -2,7 +2,7 @@ import Box from "../Box";
 import { AlurakutProfileSidebarMenuDefault } from "../../lib/AlurakutCommons";
 function ProfileSideBar({ githubUser }) {
   return (
-    <Box>
+    <Box as="aside">
       <img
         src={`https://github.com/${githubUser}.png`}
         style={{ borderRadius: "8px" }}

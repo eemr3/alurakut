@@ -6,24 +6,27 @@ import {
 } from "../src/lib/AlurakutCommons";
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
-import { ProfileRelationsBoxWrapper } from "../src/components/ProfileRelations";
+import { ProfileRelations } from "../src/components/ProfileRelations";
 import ProfileSideBar from "../src/components/ProfileSideBar";
 
 const initialData = {
   id: "2021-07-13T17:56:46.719Z",
-  title: "Eu odeio acordar cedo",
+  title: "Eu odeio acordar cedo de manhã",
   image: "http://alurakut.vercel.app/capa-comunidade-01.jpg",
+  url: "https://github.com/eemr3",
 };
 
 export default function Home() {
   const [newCommunity, setNewCommunity] = useState([initialData]);
   const githubUser = "eemr3";
   const favoritiePeople = [
-    "juunegreiros",
+    "rafaballerini",
+    "jeniblodev",
     "omariosouto",
     "peas",
-    "rafaballerini",
     "marcobrunodev",
+    "tiagu99",
+    "juunegreiros",
     "felipefialho",
   ];
 
@@ -81,34 +84,19 @@ export default function Home() {
           className="profileRelationsArea"
           style={{ gridArea: "profileRelationsArea" }}
         >
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">Comunidades ({newCommunity.length})</h2>
-            <ul>
-              {newCommunity.map((community) => (
-                <li key={community.id}>
-                  <a>
-                    <img src={community.image} />
-                    <span>{community.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas da comunidades ({favoritiePeople.length})
-            </h2>
-            <ul>
-              {favoritiePeople.map((people) => (
-                <li key={people}>
-                  <a href={`/users/${people}`} target="_blank">
-                    <img src={`https://github.com/${people}.png`} />
-                    <span>{people}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          <ProfileRelations
+            chosenArray="favoritiePeople"
+            arrayState={favoritiePeople}
+            children="Pessoas da comunidade"
+            arrayLength={favoritiePeople}
+            url={`https://github.com`}
+          />
+          <ProfileRelations
+            chosenArray="newCommunity"
+            arrayState={newCommunity}
+            arrayLength={newCommunity}
+            children="Comunidades"
+          />
         </div>
       </MainGrid>
     </>

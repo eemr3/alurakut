@@ -1,6 +1,48 @@
 import styled from "styled-components";
 import Box from "../Box";
 
+export function ProfileRelations({
+  arrayState,
+  children,
+  arrayLength,
+  url,
+  chosenArray,
+}) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {children} ({arrayLength.length})
+      </h2>
+
+      <ul>
+        {chosenArray === "favoritiePeople"
+          ? arrayState.map(
+              (item, index) =>
+                index < 6 && (
+                  <li key={index}>
+                    <a href={`${url}/${item}`} target="_blank">
+                      <img src={`${url}/${item}.png`} />
+                      <span>{item}</span>
+                    </a>
+                  </li>
+                )
+            )
+          : arrayState.map(
+              (item, index) =>
+                index < 6 && (
+                  <li key={item.id}>
+                    <a>
+                      <img src={`${item.image}`} />
+                      <span>{item.title}</span>
+                    </a>
+                  </li>
+                )
+            )}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  );
+}
+
 export const ProfileRelationsBoxWrapper = styled(Box)`
   ul {
     display: grid;
