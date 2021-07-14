@@ -5,7 +5,7 @@ const MainGrid = styled.main`
   grid-gap: 10px;
 
   margin-left: auto;
-  margin-right: 500px;
+  margin-right: auto;
   max-width: 500px;
   padding: 1rem;
 
@@ -23,4 +23,5 @@ const MainGrid = styled.main`
     grid-template-columns: 160px 1fr 312px;
   }
 `;
+
 export default MainGrid;

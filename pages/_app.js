@@ -3,23 +3,21 @@ import { AlurakutStyles } from "../src/lib/AlurakutCommons";
 
 const GlobalStyle = createGlobalStyle`
 *{
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
 
 }
   body {
-    /* background-color:#D9E6F6; */
     background: linear-gradient(180deg,#02192F .13%,#010505 88.51%);
     font-family: sans-serif;
   }
 
-  #__next{
+  #__next {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
   }
-
   img {
     max-width: 100%;
     height: auto;
