@@ -9,7 +9,8 @@ const GlobalStyle = createGlobalStyle`
 
 }
   body {
-    background-color:#D9E6F6;
+    /* background-color:#D9E6F6; */
+    background: linear-gradient(180deg,#02192F .13%,#010505 88.51%);
     font-family: sans-serif;
   }
 
@@ -29,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
 
 const theme = {
   colors: {
-    primary: "#0070f3",
+    primary: "#021026",
   },
 };
 
