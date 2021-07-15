@@ -96,7 +96,7 @@ export default function Home() {
     }).then(async (response) => {
       const data = await response.json();
       const communityCreate = data.record;
-      const updatedCommunities = [...newCommunity, communityCreate];
+      const updatedCommunities = [communityCreate, ...newCommunity];
       console.log(updatedCommunities);
       setNewCommunity(updatedCommunities);
     });
