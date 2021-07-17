@@ -1,6 +1,11 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { AlurakutStyles } from "../src/lib/AlurakutCommons";
+import { AuthProvider } from "../src/utils/contexts/AuthContext";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fab);
 const GlobalStyle = createGlobalStyle`
 *{
   margin: 0px;
@@ -35,10 +40,12 @@ const theme = {
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <AuthProvider>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthProvider>
     </>
   );
 }

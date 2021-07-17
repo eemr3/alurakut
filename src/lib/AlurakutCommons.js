@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import NextLink from "next/link";
+import useAuth from "../hooks/useAuth";
 
 const BASE_URL = "http://alurakut.vercel.app/";
 const v = "1";
@@ -17,7 +18,9 @@ function Link({ href, children, ...props }) {
 // Menu
 // ================================================================================================================
 export function AlurakutMenu({ githubUser, userAvatar }) {
-  const [isMenuOpen, setMenuState] = React.useState(false);
+  const [isMenuOpen, setMenuState] = useState(false);
+  const { signout } = useAuth();
+
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
       <div className="container">
@@ -39,7 +42,7 @@ export function AlurakutMenu({ githubUser, userAvatar }) {
         </nav>
 
         <nav>
-          <a href={`/logout`}>Sair</a>
+          <a onClick={() => signout()}>Sair</a>
           <div>
             <input placeholder="Pesquisar no Orkut" />
           </div>
@@ -198,6 +201,7 @@ function AlurakutMenuProfileSidebar({ githubUser, userAvatar }) {
 // AlurakutProfileSidebarMenuDefault
 // ================================================================================================================
 export function AlurakutProfileSidebarMenuDefault() {
+  const { signout } = useAuth();
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper>
       <nav>
@@ -224,7 +228,7 @@ export function AlurakutProfileSidebarMenuDefault() {
           <img src={`${BASE_URL}/icons/plus.svg`} />
           GitHub Trends
         </a>
-        <a href="/logout">
+        <a onClick={() => signout()}>
           <img src={`${BASE_URL}//icons/logout.svg`} />
           Sair
         </a>

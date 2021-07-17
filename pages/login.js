@@ -1,5 +1,22 @@
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { setCookie } from "nookies";
+import useAuth from "../src/hooks/useAuth";
+
 export default function LoginScreen() {
-  const githubUser = "eemr3";
+  const { user, signin } = useAuth();
+  const [loginUser, setLoginUser] = useState("");
+
+  function handleLogin(event) {
+    event.preventDefault();
+
+    setCookie(null, "LOGIN_USER", loginUser, {
+      maxAge: 86400,
+      path: "/",
+    });
+    signin();
+  }
+
   return (
     <main
       style={{
@@ -32,17 +49,19 @@ export default function LoginScreen() {
             <p>
               Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!
             </p>
-            <input placeholder="Usuário" value={githubUser} />
-            <button type="submit">Login</button>
+            <br />
+            <input
+              placeholder="Usuário"
+              onChange={(event) => setLoginUser(event.target.value)}
+              value={loginUser}
+            />
+            <button type="submit" onClick={handleLogin}>
+              <FontAwesomeIcon icon={["fab", "github"]} size="1x" /> Login
+            </button>
           </form>
 
           <footer className="box">
-            <p>
-              Ainda não é membro? <br />
-              <a href="/login">
-                <strong>ENTRAR JÁ</strong>
-              </a>
-            </p>
+            <p>Realise seu logn In usando o Github</p>
           </footer>
         </section>
 
