@@ -1,9 +1,6 @@
 <h2 align="center">Alurakut</h2>
 
-___
-
-
-
+---
 
 <p align="center">
   <a href="LICENSE">
@@ -11,7 +8,7 @@ ___
   </a>
 </p>
 
-___
+---
 
 <h3 align="center">
   <a href="#information_source-sobre">Sobre</a>&nbsp;|&nbsp;
@@ -22,7 +19,7 @@ ___
   <a href="#licença">Licença</a>
 </h3>
 
-___
+---
 
 ![https___alurakut (1)](https://user-images.githubusercontent.com/42968718/125696804-c5b48ff8-e00a-49c8-990d-b040f61c0232.png)
 
@@ -38,13 +35,13 @@ Estudo durante a #imersãoreact da Alura
 
 NodeJS v 10.0+
 
-## :rocket: Tecnologias Utilizadas 
+## :rocket: Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 - NextJS
 
-## :link: Como contribuir 
+## :link: Como contribuir
 
 - Faça um Fork do repositório
 - Clone o seu repositório
@@ -52,7 +49,8 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 - Faça um commit com suas mudanças
 - 'Push' a sua branch
 - Ir em Pull Requests do projeto original e criar uma pull request com o seu commit
+- Se for usar o firebae-auth, devera criar na raiz do projeto uma arquivo .env.local com as credenciais de seu projeto no firebase.
 
-## Licença 
+## Licença
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
