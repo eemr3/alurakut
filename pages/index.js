@@ -157,6 +157,7 @@ export default function Home() {
         >
           <ProfileRelationsBox title="Seguidores" array={followers} />
           <ProfileRelationsBox title="Seguindo" array={following} />
+
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">Comunidades ({newCommunity.length})</h2>
             <ul>
