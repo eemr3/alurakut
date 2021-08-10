@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
 
 import {
   AlurakutMenu,
@@ -11,20 +13,28 @@ import {
   ProfileRelationsBoxWrapper,
 } from "../src/components/ProfileRelations";
 import ProfileSideBar from "../src/components/ProfileSideBar";
+import useAuth from "../src/hooks/useAuth";
+import firebase from "../src/lib/firebase";
 
-export default function Home() {
+export default function Home(props) {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [userLoged, setUserLoged] = useState({
+    display_name: "",
+    photo_url: "",
+  });
+
   const [newCommunity, setNewCommunity] = useState([]);
-
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [githubUser, setGithubUser] = useState({
+  const [userLogin, setUserLogin] = useState(props.LOGIN_USER);
+
+  const [userGithub, setUserGithub] = useState({
     login: "",
-    avatar_url: "",
-    name: "",
   });
 
   useEffect(() => {
-    fetch("https://api.github.com/users/eemr3/followers")
+    fetch(`https://api.github.com/users/${userLogin}/followers`)
       .then((responseServer) => {
         return responseServer.json();
       })
@@ -32,7 +42,7 @@ export default function Home() {
         setFollowers(response);
       });
 
-    fetch("https://api.github.com/users/eemr3/following")
+    fetch(`https://api.github.com/users/${userLogin}/following`)
       .then((responseServer) => {
         return responseServer.json();
       })
@@ -40,15 +50,32 @@ export default function Home() {
         setFollowing(response);
       });
 
-    fetch("https://api.github.com/users/eemr3").then(async (responseServer) => {
-      const dataUser = await responseServer.json();
-      setGithubUser({
-        login: dataUser.login,
-        avatar_url: dataUser.avatar_url,
-        name: dataUser.name,
+    async function observeAuth() {
+      await firebase.auth().onAuthStateChanged((user) => {
+        if (!user && userLogin === null) {
+          router.push("/login");
+        } else {
+          setUserLoged({
+            display_name: user?.displayName,
+            photo_url: user?.photoURL,
+          });
+        }
       });
-    });
+    }
 
+    fetch(`https://api.github.com/users/${userLogin}`).then(
+      async (responseServer) => {
+        const dataUser = await responseServer.json();
+        setUserGithub({
+          login: dataUser.login,
+        });
+      }
+    );
+
+    observeAuth();
+  }, [user]);
+
+  useEffect(() => {
     // Get data DatoCMS (comunidades)
     fetch("https://graphql.datocms.com/", {
       method: "POST",
@@ -84,7 +111,7 @@ export default function Home() {
       title: formData.get("title"),
       imageUrl: formData.get("image"),
       linkUrl: formData.get("link"),
-      creatorSlug: githubUser.login,
+      creatorSlug: user,
     };
 
     fetch("/api/community", {
@@ -97,27 +124,24 @@ export default function Home() {
       const data = await response.json();
       const communityCreate = data.record;
       const updatedCommunities = [communityCreate, ...newCommunity];
-      console.log(updatedCommunities);
+
       setNewCommunity(updatedCommunities);
     });
   }
 
   return (
     <>
-      <AlurakutMenu
-        githubUser={githubUser.login}
-        userAvatar={githubUser.avatar_url}
-      />
+      <AlurakutMenu githubUser={userGithub.login} userAvatar={user?.photoURL} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: "profileArea" }}>
           <ProfileSideBar
-            githubUser={githubUser.login}
-            userAvatar={githubUser.avatar_url}
+            githubUser={userGithub.login}
+            userAvatar={userLoged.photo_url}
           />
         </div>
         <div className="welcomeArea" style={{ gridArea: "welcomeArea" }}>
           <Box>
-            <h1 className="title">Bem vindo(a) {githubUser.name}</h1>
+            <h1 className="title">Bem vindo(a) {userLoged.display_name}</h1>
             <OrkutNostalgicIconSet />
           </Box>
           <Box>
@@ -171,29 +195,19 @@ export default function Home() {
               ))}
             </ul>
           </ProfileRelationsBoxWrapper>
-          {/* <ProfileRelationsBox title="Comunidades" array={newCommunity} /> */}
         </div>
       </MainGrid>
     </>
   );
 }
 
-{
-  /* <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">Seguidores ({followers.length})</h2>
+export async function getServerSideProps(context) {
+  const cookies = parseCookies(context);
 
-            <ul>
-              {followers.map(
-                (item, index) =>
-                  index < 6 && (
-                    <li key={item.id}>
-                      <a href={`${item.html_url}`} target="_blank">
-                        <img src={`${item.avatar_url}`} />
-                        <span>{item.login}</span>
-                      </a>
-                    </li>
-                  )
-              )}
-            </ul>
-          </ProfileRelationsBoxWrapper> */
+  return {
+    props: {
+      msg: "Olá estou funcionanto by getServerSideProps",
+      LOGIN_USER: cookies.LOGIN_USER || null,
+    },
+  };
 }
